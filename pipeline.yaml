@@ -42,6 +42,7 @@ extends:
     deployToSecondary: ${{ parameters.deployToSecondary }}
     appName: $(APIName)
     keyVaultName: 'trdinfkv1001'
+    provider: '$(Build.Repository.Provider)'
     appProject: GC
     sbProject: TRE
     sqlProject: TRS
