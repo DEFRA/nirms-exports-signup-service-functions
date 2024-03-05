@@ -1,0 +1,59 @@
+name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
+
+parameters:
+  - name: forceDevDeploy
+    displayName: "Force deployment to DEV"
+    type: boolean
+    default: false
+  - name: deployToSecondary
+    displayName: "Select Secondary Region"
+    type: string
+    default: PRD
+    values:
+      - None
+      - DEV
+      - TST
+      - PRE
+      - PRD
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      -  src/Defra.Trade.ReMoS.AssuranceService.Rejections/*
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-TRD/Defra.TRD.Pipeline.Common
+      type: git
+      ref: master
+
+variables:
+  APIName: Defra.Trade.ReMoS.AssuranceService.Rejections
+
+extends:
+  template: /templates/basic-webapp-deploy-pipeline.yaml@PipelineCommon
+  parameters:
+    forceDevDeploy: ${{ parameters.forceDevDeploy }}
+    deployToSecondary: ${{ parameters.deployToSecondary }}
+    appName: $(APIName)
+    keyVaultName: 'trdinfkv1001'
+    appProject: GC
+    sbProject: TRE
+    sqlProject: TRS
+    appType: 'functionApp'
+    appInstanceNumber: $(nc-region-id)01
+    publishArguments: '--configuration Release'
+    setupMiUser: 'true'
+    appSettings: '-AzureResourceGroupName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-resourcegroup)1001" -AzureServiceBusName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-servicebus)1001" -ConfigurationServer:Uri "https://$(environment)TRDINFAC$(nc-region-id)01.azconfig.io" -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"'
+    connectionStrings: '[{"name": "sql_db", "value": "Server=tcp:$(sqlServerName),1433;Database=trade-remos-signup;Authentication=Active Directory Managed Identity;", "type": "SQLAzure", "slotSetting": false}]'
+    buildProjects: |
+      **/*Defra.Trade.ReMoS.AssuranceService.Rejections.csproj 
+    publishProject: '**/*Defra.Trade.ReMoS.AssuranceService.Rejections.csproj'
+    
+    runSonarScan: false
+    

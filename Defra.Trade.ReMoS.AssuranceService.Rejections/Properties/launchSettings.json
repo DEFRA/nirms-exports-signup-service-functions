@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Defra.Trade.ReMoS.AssuranceService.Rejections": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7208",
+      "launchBrowser": false
+    }
+  }
+}
