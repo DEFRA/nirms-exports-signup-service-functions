@@ -70,6 +70,7 @@ extends:
     provider: '$(Build.Repository.Provider)'
     buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
-    githubrepoPath: '$(Build.SourcesDirectory)'
+    githubPath: '$(Build.SourcesDirectory)'
+
     runSonarScan: false
     
