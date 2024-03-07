@@ -41,11 +41,11 @@ steps:
       targetType: 'inline'
       script: |
         # Write your PowerShell commands here.
-        ls
         Write-Host "SourcesDirectory $(Build.SourcesDirectory)/$(Build.Repository.Name)"
         ls $(Build.SourcesDirectory)/$(Build.Repository.Name)
-        Write-Host "Inside SourcesDirectory"
-        cd $(Build.SourcesDirectory)/nirms-exports-signup-service-functions
+        Write-Host "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
+        ls $(System.DefaultWorkingDirectory)/$(Build.Repository.Name) 
+        ls $(Build.SourcesDirectory)/nirms-exports-signup-service-functions
         ls 
         pwd
 
