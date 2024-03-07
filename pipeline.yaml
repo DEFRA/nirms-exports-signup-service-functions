@@ -2,7 +2,7 @@ name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
 
 parameters:
   - name: forceDevDeploy
-    displayName: "Force deployment to DEV"
+    displayName: "Force deployment to DEV "
     type: boolean
     default: false
   - name: deployToSecondary
