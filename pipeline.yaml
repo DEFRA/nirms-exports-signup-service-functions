@@ -35,37 +35,39 @@ resources:
 variables:
   APIName: Defra.Trade.ReMoS.AssuranceService.Rejections
 
-# steps:  
-#   - task: PowerShell@2
-#     inputs:
-#       targetType: 'inline'
-#       script: |
-#         # Write your PowerShell commands here.
-#         Write-Host "SourcesDirectory"
-#         ls $(Build.SourcesDirectory)
-#         cd $(Build.SourcesDirectory)/nirms-exports-signup-service-functions
-#         ls 
-#         pwd
+steps:  
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your PowerShell commands here.
+        ls
+        Write-Host "SourcesDirectory $(Build.SourcesDirectory)/$(Build.Repository.Name)"
+        ls $(Build.SourcesDirectory)/$(Build.Repository.Name)
+        Write-Host "Inside SourcesDirectory"
+        cd $(Build.SourcesDirectory)/nirms-exports-signup-service-functions
+        ls 
+        pwd
 
-extends:
-  template: /templates/basic-webapp-deploy-pipeline.yaml@PipelineCommon
-  parameters:
-    forceDevDeploy: ${{ parameters.forceDevDeploy }}
-    deployToSecondary: ${{ parameters.deployToSecondary }}
-    appName: $(APIName)
-    keyVaultName: 'trdinfkv1001'
-    appProject: GC
-    sbProject: TRE
-    sqlProject: TRS
-    appType: 'functionApp'
-    appInstanceNumber: $(nc-region-id)01
-    publishArguments: '--configuration Release'
-    setupMiUser: 'true'
-    appSettings: '-AzureResourceGroupName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-resourcegroup)1001" -AzureServiceBusName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-servicebus)1001" -ConfigurationServer:Uri "https://$(environment)TRDINFAC$(nc-region-id)01.azconfig.io" -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"'
-    connectionStrings: '[{"name": "sql_db", "value": "Server=tcp:$(sqlServerName),1433;Database=trade-remos-signup;Authentication=Active Directory Managed Identity;", "type": "SQLAzure", "slotSetting": false}]'
-    provider: '$(Build.SourcesDirectory)/$(Build.Repository.Name)' # '$(System.DefaultWorkingDirectory)'#'$(Build.Repository.Provider)'
-    buildProjects: '**/*Rejections.csproj'
-    publishProject: '**/*Rejections.csproj'
+# extends:
+#   template: /templates/basic-webapp-deploy-pipeline.yaml@PipelineCommon
+#   parameters:
+#     forceDevDeploy: ${{ parameters.forceDevDeploy }}
+#     deployToSecondary: ${{ parameters.deployToSecondary }}
+#     appName: $(APIName)
+#     keyVaultName: 'trdinfkv1001'
+#     appProject: GC
+#     sbProject: TRE
+#     sqlProject: TRS
+#     appType: 'functionApp'
+#     appInstanceNumber: $(nc-region-id)01
+#     publishArguments: '--configuration Release'
+#     setupMiUser: 'true'
+#     appSettings: '-AzureResourceGroupName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-resourcegroup)1001" -AzureServiceBusName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-servicebus)1001" -ConfigurationServer:Uri "https://$(environment)TRDINFAC$(nc-region-id)01.azconfig.io" -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"'
+#     connectionStrings: '[{"name": "sql_db", "value": "Server=tcp:$(sqlServerName),1433;Database=trade-remos-signup;Authentication=Active Directory Managed Identity;", "type": "SQLAzure", "slotSetting": false}]'
+#     provider: '$(Build.SourcesDirectory)/$(Build.Repository.Name)' # '$(System.DefaultWorkingDirectory)'#'$(Build.Repository.Provider)'
+#     buildProjects: '**/*Rejections.csproj'
+#     publishProject: '**/*Rejections.csproj'
 
-    runSonarScan: false
+#     runSonarScan: false
     
