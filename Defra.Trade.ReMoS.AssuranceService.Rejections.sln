@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Defra.Trade.ReMoS.AssuranceService.Rejections", "Defra.Trade.ReMoS.AssuranceService.Rejections.csproj", "{B8BC4F5D-FB0B-4BF5-BEBF-B146C48DEA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Defra.Trade.ReMoS.AssuranceService.Rejections", "src\Defra.Trade.ReMoS.AssuranceService.Rejections\Defra.Trade.ReMoS.AssuranceService.Rejections.csproj", "{B8BC4F5D-FB0B-4BF5-BEBF-B146C48DEA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Defra.Trade.ReMoS.AssuranceService.Rejections.Domain", "..\Defra.Trade.ReMoS.AssuranceService.Rejections.Domain\Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.csproj", "{097019E3-3575-4476-99E6-B34015C0F2BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Defra.Trade.ReMoS.AssuranceService.Rejections.Domain", "src\Defra.Trade.ReMoS.AssuranceService.Rejections.Domain\Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.csproj", "{097019E3-3575-4476-99E6-B34015C0F2BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
