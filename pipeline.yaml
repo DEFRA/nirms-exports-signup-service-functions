@@ -54,6 +54,6 @@ extends:
     provider: '$(Build.Repository.Provider)'
     buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
-    skipTests: 'true'
+    skipBuildTests: 'true'
 
     runSonarScan: false
