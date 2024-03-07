@@ -30,7 +30,7 @@ resources:
     - repository: PipelineCommon
       name: DEFRA-TRD/Defra.TRD.Pipeline.Common
       type: git
-      ref: master
+      ref: pp/github-issues-fix #master
 
 variables:
   APIName: Defra.Trade.ReMoS.AssuranceService.Rejections
@@ -69,5 +69,6 @@ extends:
     buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
     skipTests: true
+
     runSonarScan: false
     
