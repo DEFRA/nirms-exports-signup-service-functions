@@ -53,7 +53,7 @@ extends:
     connectionStrings: '[{"name": "sql_db", "value": "Server=tcp:$(sqlServerName),1433;Database=trade-remos-signup;Authentication=Active Directory Managed Identity;", "type": "SQLAzure", "slotSetting": false}]'
     provider: '$(Build.Repository.Provider)'
     buildProjects: '**/*Rejections.csproj'
-    publishProject: '**/*Rejections.csproj'
+    publishProject: '**/*.csproj'
     skipBuildTests: 'true'
 
     runSonarScan: false
