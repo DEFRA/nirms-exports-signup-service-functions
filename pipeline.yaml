@@ -46,6 +46,7 @@ extends:
     appInstanceNumber: $(nc-region-id)01
     publishArguments: '--configuration Release'
     publishProject: '**/*Rejections.csproj'
+    provider: '$(Build.Repository.Provider)'
     runHealthCheck: false
     skipBuildTests: 'true'
     runSonarScan: false
