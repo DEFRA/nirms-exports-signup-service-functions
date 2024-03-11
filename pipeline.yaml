@@ -45,7 +45,7 @@ extends:
     appType: 'functionApp'
     appInstanceNumber: $(nc-region-id)01
     publishArguments: '--configuration Release'
-    publishProject: '**/Defra.Trade.ReMoS.AssuranceService.Rejections/*.csproj'
+    publishProject: '**/**/Defra.Trade.ReMoS.AssuranceService.Rejections/*.csproj'
     provider: '$(Build.Repository.Provider)'
     runHealthCheck: false
     skipBuildTests: true
