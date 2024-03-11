@@ -1,0 +1,51 @@
+name: 'V1-B$(Date:yyyyMMdd)-$(BuildID)'
+
+parameters:
+  - name: forceDevDeploy
+    displayName: "Force deployment to DEV"
+    type: boolean
+    default: false
+  - name: deployToSecondary
+    displayName: "Select Secondary Region"
+    type: string
+    default: PRD
+    values:
+      - None
+      - DEV
+      - TST
+      - PRE
+      - PRD
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+     - '*'
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-TRD/Defra.TRD.Pipeline.Common
+      type: git
+      ref: pp/github-issues-fix #master
+
+variables:
+  APIName: Defra.Trade.ReMoS.AssuranceService.Rejections
+
+extends:
+  template: /templates/basic-webapp-deploy-pipeline.yaml@PipelineCommon
+  parameters:
+    forceDevDeploy: ${{ parameters.forceDevDeploy }}
+    deployToSecondary: ${{ parameters.deployToSecondary }}
+    appName: $(APIName)
+    appProject: GC
+    appType: 'functionApp'
+    appInstanceNumber: $(nc-region-id)01
+    publishArguments: '--configuration Release'
+    publishProject: '**/*Rejections.csproj'
+    runHealthCheck: false
+    skipBuildTests: 'true'
+    runSonarScan: false
