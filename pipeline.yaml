@@ -48,6 +48,7 @@ extends:
     buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
     provider: '$(Build.Repository.Provider)'
+    scr: GH
     runHealthCheck: false
     skipBuildTests: true
     runSonarScan: false
