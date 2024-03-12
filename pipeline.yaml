@@ -45,6 +45,7 @@ extends:
     appType: 'functionApp'
     appInstanceNumber: $(nc-region-id)01
     publishArguments: '--configuration Release'
+    buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
     provider: '$(Build.Repository.Provider)'
     runHealthCheck: false
