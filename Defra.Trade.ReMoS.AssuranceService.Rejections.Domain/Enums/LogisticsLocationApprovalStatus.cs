@@ -13,5 +13,6 @@ public enum LogisticsLocationApprovalStatus
     Draft,
     PendingApproval,
     Suspended,
-    Removed
+    Removed,
+    NoUpdate = -1
 }
