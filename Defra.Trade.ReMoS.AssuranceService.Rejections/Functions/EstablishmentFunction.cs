@@ -56,7 +56,7 @@ namespace Defra.Trade.ReMoS.AssuranceService.Rejections.Functions
                             "Approved" => (int)LogisticsLocationApprovalStatus.Approved,
                             "Suspended" => (int)LogisticsLocationApprovalStatus.Suspended,
                             "Rejected" => (int)LogisticsLocationApprovalStatus.Rejected,
-                            _ => (int)LogisticsLocationApprovalStatus.PendingApproval,
+                            _ => (int)LogisticsLocationApprovalStatus.NoUpdate,
                         };
                     }
                     _dbContext.Database.ExecuteSqlRaw(@"EXECUTE sp_UpdateEstablishmentStatus {0}, {1}, {2}", 
