@@ -15,8 +15,12 @@ namespace Defra.Trade.ReMoS.AssuranceService.Rejections.Functions
     public class RejectionFunctions(ApplicationDbContext dbContext, ILogger<RejectionFunctions> logger)
     {
         [Function("RejectTrader")]
-        public async Task Run([ServiceBusTrigger(RemosSignUpSubscriberSettings.DefaultQueueName, Connection = RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey, IsSessionsEnabled = false, AutoCompleteMessages = false)] ServiceBusReceivedMessage message,
-        ServiceBusMessageActions messageActions)
+        public async Task Run(
+            [ServiceBusTrigger(RemosSignUpSubscriberSettings.DefaultQueueName, 
+                               Connection = RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey, 
+                               IsSessionsEnabled = false, 
+                               AutoCompleteMessages = false)] ServiceBusReceivedMessage message,
+            ServiceBusMessageActions messageActions)
         {
             logger.LogInformation($"C# ServiceBus queue trigger function processed message: {message.Body}");
             if (message.Body != null && message.Body.ToString() != "null")

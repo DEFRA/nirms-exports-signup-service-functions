@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.2.0" />
     <PackageReference Include="Defra.Trade.Common" Version="4.0.9" />
-    <PackageReference Include="Defra.Trade.Common.Functions" Version="4.0.6" />
+    <PackageReference Include="Defra.Trade.Common.Functions.Isolated" Version="2.0.24" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.14" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
