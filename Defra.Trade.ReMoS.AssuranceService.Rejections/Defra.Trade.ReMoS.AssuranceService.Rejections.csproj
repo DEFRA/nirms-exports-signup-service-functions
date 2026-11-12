@@ -1,4 +1,4 @@
-<Project Sdk="Azure.Functions.Sdk/1.0.0">
+﻿<Project Sdk="Azure.Functions.Sdk/1.0.0">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -7,7 +7,7 @@
     <PackageReference Include="AutoMapper" Version="16.2.0" />
     <PackageReference Include="Defra.Trade.Common.Logging" Version="2.0.18" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.50.0" />
+	<PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.50.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.24.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.14" />
