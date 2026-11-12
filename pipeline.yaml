@@ -49,16 +49,11 @@ extends:
     appInstanceNumber: $(nc-region-id)01
     publishArguments: '--configuration Release'
     setupMiUser: 'true'
+   
     appSettings: '-AzureResourceGroupName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-resourcegroup)1001" -AzureServiceBusName "$(Environment.Name)TRE$(nc-function-infrastructure)$(nc-resource-servicebus)1001" -ConfigurationServer:Uri "https://$(environment)TRDINFAC$(nc-region-id)01.azconfig.io" -KeyVaultEndpoint "https://$(environment)trd$(nc-function-infrastructure)$(nc-resource-keyvault)1001.vault.azure.net/"'
     connectionStrings: '[{"name": "sql_db", "value": "Server=tcp:$(sqlServerName),1433;Database=trade-remos-signup;Authentication=Active Directory Managed Identity;", "type": "SQLAzure", "slotSetting": false}]'
     scr: GH
     buildProjects: '**/*Rejections.csproj'
     publishProject: '**/*Rejections.csproj'
     runSonarScan: false
-    appSettingsEnv:
-      dev: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
-      snd: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
-      tst: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
-      pre: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
-      prd: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
     
