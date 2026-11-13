@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Linq;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
@@ -38,6 +40,21 @@ var host = new HostBuilder()
             .AddApplication();
 
         services.ConfigureMapper();
+
+        // The Application Insights SDK registers a default logging filter rule that
+        // restricts the ApplicationInsightsLoggerProvider to Warning and above, which
+        // overrides host.json's "logging:logLevel" configuration. Remove it so that
+        // host.json settings are honoured and Information-level application logs are sent.
+        services.Configure<LoggerFilterOptions>(options =>
+        {
+            var defaultRule = options.Rules.FirstOrDefault(rule =>
+                rule.ProviderName == "Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider");
+
+            if (defaultRule is not null)
+            {
+                options.Rules.Remove(defaultRule);
+            }
+        });
     })
     .Build();
 
