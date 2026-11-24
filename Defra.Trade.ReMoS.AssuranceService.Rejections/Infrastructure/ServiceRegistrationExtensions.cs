@@ -1,7 +1,8 @@
-﻿using Defra.Trade.Common.Config;
-using Defra.Trade.Common.Functions.EventStore;
-using Defra.Trade.Common.Functions.Interfaces;
-using Defra.Trade.Common.Functions.Validation;
+﻿using Azure.Messaging.ServiceBus;
+using Defra.Trade.Common.Config;
+using Defra.Trade.Common.Functions.Isolated.EventStore;
+using Defra.Trade.Common.Functions.Isolated.Interfaces;
+using Defra.Trade.Common.Functions.Isolated.Validation;
 using Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.Infrastructure;
 using Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.Models;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,17 @@ public static class ServiceRegistrationExtensions
         services.AddOptions<RemosSignUpSubscriberSettings>().Bind(gcConfig);
 
         services.Configure<ServiceBusSettings>(configuration.GetSection(ServiceBusSettings.OptionsName));
+
+        services.AddSingleton(_ =>
+        {
+#if DEBUG
+            string connectionString = configuration.GetValue<string>(RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey);
+            return new ServiceBusClient(connectionString);
+#else
+            string connectionString = configuration.GetValue<string>($"{RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey}FQN");
+            return new ServiceBusClient(connectionString, new Azure.Identity.DefaultAzureCredential());
+#endif
+        });
 
         return services;
     }

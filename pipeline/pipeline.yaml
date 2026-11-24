@@ -42,6 +42,7 @@ extends:
     deployToSecondary: ${{ parameters.deployToSecondary }}
     appName: $(APIName)
     appProject: GC
+    sbProject: TRE
     appType: 'functionApp'
     appInstanceNumber: $(nc-region-id)01
     publishArguments: '--configuration Release'
@@ -49,3 +50,9 @@ extends:
     runHealthCheck: false
     skipBuildTests: 'true'
     runSonarScan: false
+    appSettingsEnv:
+      dev: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
+      snd: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
+      tst: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
+      pre: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'
+      prd: '-ServiceBus__fullyQualifiedNamespace "$(serviceBusNamespace)" -ServiceBusFQN "$(serviceBusNamespace)"'

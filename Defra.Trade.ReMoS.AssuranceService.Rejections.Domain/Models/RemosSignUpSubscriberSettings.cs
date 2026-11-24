@@ -18,7 +18,7 @@ public sealed class RemosSignUpSubscriberSettings
     public const string DefaultQueueName = "defra.trade.sus.rejections";
     public const string EstablishmentQueueName = "defra.trade.sus.establishment";
     public const string PublisherId = "REMOS";
-    public const string TradeEventInfo = Common.Functions.Constants.QueueName.DefaultEventsInfoQueueName;
+    public const string TradeEventInfo = Common.Functions.Isolated.Constants.QueueName.DefaultEventsInfoQueueName;
 
     public const string AppConfigSentinelName = "Sentinel";
     public string RemosSignUpCreatedQueue { get; set; } = DefaultQueueName;

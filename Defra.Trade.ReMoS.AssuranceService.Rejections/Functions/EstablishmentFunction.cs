@@ -5,36 +5,18 @@ using Defra.Trade.ReMoS.AssuranceService.API.Data.Persistence.Context;
 using Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.DTOs;
 using Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.Enums;
 using Defra.Trade.ReMoS.AssuranceService.Rejections.Domain.Models;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Azure.WebJobs.ServiceBus;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Serilog;
-
-
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 
 namespace Defra.Trade.ReMoS.AssuranceService.Rejections.Functions
 {
-    public class EstablishmentFunction
+    public class EstablishmentFunction(ApplicationDbContext dbContext, ILogger<EstablishmentFunction> logger)
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public EstablishmentFunction(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        [ServiceBusAccount(RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey)]
-        [FunctionName("EstablishmentFunction")]
-        public async Task Run([ServiceBusTrigger(queueName: RemosSignUpSubscriberSettings.EstablishmentQueueName, IsSessionsEnabled = false)] ServiceBusReceivedMessage message,
-        ServiceBusMessageActions messageActions,
-        ExecutionContext executionContext, Microsoft.Extensions.Logging.ILogger logger)
+        [Function("EstablishmentFunction")]
+        public async Task Run([ServiceBusTrigger(RemosSignUpSubscriberSettings.EstablishmentQueueName, Connection = RemosSignUpSubscriberSettings.ConnectionStringConfigurationKey, IsSessionsEnabled = false, AutoCompleteMessages = false)] ServiceBusReceivedMessage message,
+        ServiceBusMessageActions messageActions)
         {
             logger.LogInformation($"C# ServiceBus queue trigger function processed message: {message.Body}");
             if (message.Body != null && message.Body.ToString() != "null")
@@ -59,13 +41,14 @@ namespace Defra.Trade.ReMoS.AssuranceService.Rejections.Functions
                             _ => (int)LogisticsLocationApprovalStatus.NoUpdate,
                         };
                     }
-                    _dbContext.Database.ExecuteSqlRaw(@"EXECUTE sp_UpdateEstablishmentStatus {0}, {1}, {2}", 
+                    dbContext.Database.ExecuteSqlRaw(@"EXECUTE sp_UpdateEstablishmentStatus {0}, {1}, {2}", 
                         StatusInt.ToString(), result.EstablishmentStatusUpdate.InspectionLocationId.ToString(), result.EstablishmentStatusUpdate.RemosId.ToString());
                 }
                 catch (JsonException ex)
                 {
-                    await messageActions.DeadLetterMessageAsync(message, ex.Message);
-                    logger.LogError($"Exception hit processing Queue item: {ex}");
+                        await messageActions.DeadLetterMessageAsync(message, deadLetterReason: ex.Message, deadLetterErrorDescription: ex.Message);
+                        logger.LogError($"Exception hit processing Queue item: {ex}");
+                        return;
                 }
 
                 catch (Exception e)
@@ -73,11 +56,12 @@ namespace Defra.Trade.ReMoS.AssuranceService.Rejections.Functions
                     logger.LogError($"Error executing command, exception: {e}");
                     throw;
                 }
+                await messageActions.CompleteMessageAsync(message);
             }
             else
             {
                 await messageActions.CompleteMessageAsync(message);
-                logger.LogError($"Queue item is null, no action performed");
+                logger.LogError("Queue item is null, no action performed");
             }
         }
     }
